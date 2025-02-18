@@ -31,6 +31,8 @@ public class ClienteController {
         return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
+    //PathVarible = parametro na URL, ex: /clientes/1
+    //RequestParam = parametro como query, ex /clientes/?id=1
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> readCliente(@PathVariable Long id){
         Optional<Cliente> cliente = clienteRepository.findById(id);
