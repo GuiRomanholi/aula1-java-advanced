@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,11 +19,12 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private Date dataNascimento;
     private int idade;
     private String email;
     private String senha;
     private String cpf;
     private Categoria categoria;
-
+    private boolean vip;
 
 }
