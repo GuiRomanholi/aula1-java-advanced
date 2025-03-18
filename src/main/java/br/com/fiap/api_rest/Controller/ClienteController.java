@@ -114,5 +114,4 @@ public class ClienteController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    
 }
