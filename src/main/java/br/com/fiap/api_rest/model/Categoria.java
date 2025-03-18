@@ -2,7 +2,7 @@ package br.com.fiap.api_rest.model;
 
 public enum Categoria {
     BRONZE("Bronze"),
-    PREMIUN("Prata"),
+    PRATA("Prata"),
     OURO("Ouro");
 
     private String descricao;
