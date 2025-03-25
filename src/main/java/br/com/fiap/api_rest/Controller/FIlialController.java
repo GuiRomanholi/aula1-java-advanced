@@ -1,8 +1,11 @@
 package br.com.fiap.api_rest.Controller;
+import br.com.fiap.api_rest.dto.FilialRequest;
+import br.com.fiap.api_rest.dto.FilialResponse;
 import br.com.fiap.api_rest.model.Cliente;
 import br.com.fiap.api_rest.model.Endereco;
 import br.com.fiap.api_rest.repository.ClienteRepository;
 import br.com.fiap.api_rest.service.ClienteService;
+import br.com.fiap.api_rest.service.FilialService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,37 +16,45 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping(value = "/filial", produces = {"application/json"})
-@Tag(name = "api-filial")
-
+@RequestMapping("/filial")
 public class FIlialController {
-    //PEGAR DO PROFESSOR!
-    //@Autowired
-    //ClienteRepository clienteRepository;
+    @Autowired
+    FilialService filialService;
 
-    //@Autowired
-    //ClienteService clienteService;
-
-    //Create, Read, Update, Delete
-    //Post, Get, put, Delete
-
-    /*@Operation(summary = "Cria um novo cliente")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Endereco Cadastrado com Sucesso",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Endereco.class))}),
-            @ApiResponse(responseCode = "400", description = "Atributos informados são inválidos",
-                    content = @Content(schema = @Schema()))
-    })
     @PostMapping
-    public ResponseEntity<Cliente> createCliente(@Valid @RequestBody ClienteRequest cliente){
-        Cliente clienteSalvo = clienteRepository.save(clienteService.requestToCliente(cliente));
-        return new ResponseEntity<>(clienteSalvo, HttpStatus.CREATED);
-    }*/
+    public ResponseEntity<FilialResponse> create(@Valid @RequestBody FilialRequest filialRequest) {
+        return new ResponseEntity<>(filialService.create(filialRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FilialResponse>> findAll() {
+        return new ResponseEntity<>(filialService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FilialResponse> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(filialService.findById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FilialResponse> update(@PathVariable Long id, @Valid @RequestBody FilialRequest filialRequest) {
+        FilialResponse filialResponse = filialService.update(id, filialRequest);
+        if (filialResponse == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(filialResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (filialService.delete(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

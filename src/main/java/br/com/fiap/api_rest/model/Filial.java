@@ -16,6 +16,12 @@ public class Filial {
     @OneToMany(mappedBy = "filial")
     private List<Cliente> clientes;
 
+    public Filial() {}
+
+    public Filial(String nome, Endereco endereco) {
+        this.nome = nome;
+        this.endereco = endereco;
+    }
 
     public Long getId() {
         return id;
